@@ -22,7 +22,7 @@ begin
   by_cases Hp: P,
     exact Hp,
 
-    have B := NNp Hp,
+    by_contradiction,
     contradiction,
 end
 
@@ -96,8 +96,7 @@ theorem impl_as_contrapositive :
   (P → Q) → (¬Q → ¬P)  :=
 begin
   intros Ipq Nq p,
-  have q := Ipq p,
-  contradiction,
+  exact Nq (Ipq p),
 end
 
 theorem impl_as_contrapositive_converse :
@@ -151,8 +150,7 @@ begin
     intro p,
     contradiction,
 
-  have Np := IIpqp Ipq,
-  contradiction,
+  exact Np (IIpqp Ipq),
 end
 
 ------------------------------------------------
@@ -290,16 +288,16 @@ begin
   intro DCpqCpr,
   cases DCpqCpr with Cpq Cpr,
   split,
-    exact Cpq.1,
+    exact Cpq.left,
 
     left,
-    exact Cpq.2,
+    exact Cpq.right,
 
     split,
-      exact Cpr.1,
+      exact Cpr.left,
 
       right,
-      exact Cpr.2,
+      exact Cpr.right,
 end
 
 theorem distr_disj_conj :
@@ -367,7 +365,6 @@ begin
   exact (IpIqr p) q,
 end
 
-
 ------------------------------------------------
 -- Reflexividade da →:
 ------------------------------------------------
@@ -403,7 +400,7 @@ theorem weaken_conj_right :
   (P∧Q) → P  :=
 begin
   intro Cpq,
-  exact Cpq.1,
+  exact Cpq.left,
 end
 
 theorem weaken_conj_left :
@@ -418,7 +415,7 @@ theorem conj_idempot :
 begin
   split,
     intro Cpp,
-    exact Cpp.1,
+    exact Cpp.right,
 
     intro p,
     split,
@@ -445,12 +442,10 @@ end propositional
 
 ----------------------------------------------------------------
 
-
 section predicate
 
 variable U : Type
 variables P Q : U -> Prop
-
 
 ------------------------------------------------
 -- As leis de De Morgan para ∃,∀:
@@ -459,37 +454,59 @@ variables P Q : U -> Prop
 theorem demorgan_exists :
   ¬(∃x, P x) → (∀x, ¬P x)  :=
 begin
-  sorry,
+  intros NEPx x Px, 
+  have EPx: ∃x, P x,
+    existsi x,
+    exact Px,
+  contradiction,
 end
 
 theorem demorgan_exists_converse :
   (∀x, ¬P x) → ¬(∃x, P x)  :=
 begin
-  sorry,
+  intros AxNPx ExPx,
+  cases ExPx with x Px,
+  exact (AxNPx x) Px,
 end
 
 theorem demorgan_forall :
   ¬(∀x, P x) → (∃x, ¬P x)  :=
 begin
-  sorry,
+  rw [contrapositive_law, doubleneg_law],
+  intros NExNPx x,
+  by_cases HPx: P x,
+    exact HPx,
+    
+    have ExNPx: ∃x, ¬P x,
+      existsi x,
+      exact HPx,
+    contradiction,
 end
 
 theorem demorgan_forall_converse :
   (∃x, ¬P x) → ¬(∀x, P x)  :=
 begin
-  sorry,
+  intros ExNPx AxPx,
+  cases ExNPx with x NPx,
+  exact NPx (AxPx x),
 end
 
 theorem demorgan_forall_law :
   ¬(∀x, P x) ↔ (∃x, ¬P x)  :=
 begin
-  sorry,
+  split,
+    exact demorgan_forall U P,
+
+    exact demorgan_forall_converse U P,
 end
 
 theorem demorgan_exists_law :
   ¬(∃x, P x) ↔ (∀x, ¬P x)  :=
 begin
-  sorry,
+  split,
+    exact demorgan_exists U P,
+
+    exact demorgan_exists_converse U P,
 end
 
 
@@ -500,39 +517,55 @@ end
 theorem exists_as_neg_forall :
   (∃x, P x) → ¬(∀x, ¬P x)  :=
 begin
-  sorry,
+  intros EPx AxNPx,
+  cases EPx with x Px,
+  exact (AxNPx x) Px,
 end
 
 theorem forall_as_neg_exists :
   (∀x, P x) → ¬(∃x, ¬P x)  :=
 begin
-  sorry,
+  intros AxPx ExNPx,
+  cases ExNPx with x NPx,
+  exact NPx (AxPx x),
 end
 
 theorem forall_as_neg_exists_converse :
   ¬(∃x, ¬P x) → (∀x, P x)  :=
 begin
-  sorry,
+  intros NExNPx x,
+  by_contradiction NPx,
+  have ExNPx: ∃x, ¬P x,
+    existsi x,
+    exact NPx,
+  exact NExNPx ExNPx,
 end
 
 theorem exists_as_neg_forall_converse :
   ¬(∀x, ¬P x) → (∃x, P x)  :=
 begin
-  sorry,
+  intro NAxNPx,
+  by_contradiction NExPx,
+  exact NAxNPx ((demorgan_exists U P) NExPx),
 end
 
 theorem forall_as_neg_exists_law :
   (∀x, P x) ↔ ¬(∃x, ¬P x)  :=
 begin
-  sorry,
+  split,
+     exact forall_as_neg_exists U P,
+
+     exact forall_as_neg_exists_converse U P,
 end
 
 theorem exists_as_neg_forall_law :
   (∃x, P x) ↔ ¬(∀x, ¬P x)  :=
 begin
-  sorry,
+  split,
+    exact exists_as_neg_forall U P,
+    
+    exact exists_as_neg_forall_converse U P,
 end
-
 
 ------------------------------------------------
 --  Proposições de distributividade de quantificadores:
@@ -541,40 +574,82 @@ end
 theorem exists_conj_as_conj_exists :
   (∃x, P x ∧ Q x) → (∃x, P x) ∧ (∃x, Q x)  :=
 begin
-  sorry,
+  intro ExCPxQx,
+  cases ExCPxQx with x CPxQx,
+  cases CPxQx with Px Qx,
+  split,
+    existsi x,
+    exact Px,
+
+    existsi x,
+    exact Qx,
 end
 
 theorem exists_disj_as_disj_exists :
   (∃x, P x ∨ Q x) → (∃x, P x) ∨ (∃x, Q x)  :=
 begin
-  sorry,
+  intro ExDPxQx,
+  cases ExDPxQx with x DPxQx,
+  cases DPxQx with Px Qx,
+    left,
+    existsi x,
+    exact Px,
+
+    right,
+    existsi x,
+    exact Qx,
 end
 
 theorem exists_disj_as_disj_exists_converse :
   (∃x, P x) ∨ (∃x, Q x) → (∃x, P x ∨ Q x)  :=
 begin
-  sorry,
+  intro DExPxExQx,
+  cases DExPxExQx with ExPx ExQx,
+    cases ExPx with x Px,
+    existsi x,
+    left,
+    exact Px,
+
+    cases ExQx with x Qx,
+    existsi x,
+    right,
+    exact Qx,
 end
 
 theorem forall_conj_as_conj_forall :
   (∀x, P x ∧ Q x) → (∀x, P x) ∧ (∀x, Q x)  :=
 begin
-  sorry,
+  intro AxCPxQx,
+  split,
+    intro x,
+    exact (AxCPxQx x).left,
+
+    intro x,
+    exact (AxCPxQx x).right,
 end
 
 theorem forall_conj_as_conj_forall_converse :
   (∀x, P x) ∧ (∀x, Q x) → (∀x, P x ∧ Q x)  :=
 begin
-  sorry,
+  intros CAxPxAxQx x,
+  split,
+    exact CAxPxAxQx.left x,
+
+    exact CAxPxAxQx.right x,
 end
 
 
 theorem forall_disj_as_disj_forall_converse :
   (∀x, P x) ∨ (∀x, Q x) → (∀x, P x ∨ Q x)  :=
 begin
-  sorry,
-end
+  intros DAxPxAxQx x,
+  cases DAxPxAxQx with AxPx AxQx,
+    left,
+    exact AxPx x,
 
+    right,
+    exact AxQx x,
+end
 
 /- NOT THEOREMS --------------------------------
 
