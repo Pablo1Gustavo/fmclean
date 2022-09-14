@@ -10,8 +10,7 @@ variables P Q R : Prop
 theorem doubleneg_intro :
   P → ¬¬P  :=
 begin
-  intro p,
-  intro Np,
+  intros p No,
   contradiction,
 end
 
@@ -22,7 +21,7 @@ begin
   by_cases Hp: P,
     exact Hp,
 
-    by_contradiction,
+    have B := NNp Hp,
     contradiction,
 end
 
@@ -69,8 +68,7 @@ end
 theorem impl_as_disj_converse :
   (¬P ∨ Q) → (P → Q)  :=
 begin
-  intro DNpq,
-  intro p,
+  intros DNpq p,
   cases DNpq with Np q,
     contradiction,
 
@@ -80,8 +78,7 @@ end
 theorem disj_as_impl :
   (P ∨ Q) → (¬P → Q)  :=
 begin
-  intro Dpq,
-  intro Np,
+  intros Dpq Np,
   cases Dpq with p q,
     contradiction,
 
@@ -546,7 +543,7 @@ theorem exists_as_neg_forall_converse :
 begin
   intro NAxNPx,
   by_contradiction NExPx,
-  exact NAxNPx ((demorgan_exists U P) NExPx),
+  exact NAxNPx (demorgan_exists U P NExPx),
 end
 
 theorem forall_as_neg_exists_law :
