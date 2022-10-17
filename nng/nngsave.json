@@ -24,27 +24,33 @@
     },
     {
       "lean": "lemma zero_add (n : mynat) : 0 + n = n :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "induction n with n h,\r\n  refl,\r\n\r\n  rw [\r\n    add_succ 0,\r\n    h\r\n  ],\r\n  refl,"
     },
     {
       "lean": "lemma add_assoc (a b c : mynat) : (a + b) + c = a + (b + c) :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "induction c with c hd,\r\n  rw [\r\n    add_zero (a + b),\r\n    add_zero b\r\n  ],\r\n  refl,\r\n\r\n  rw [\r\n    add_succ (a + b) c,\r\n    add_succ b c,\r\n    add_succ a (b + c),\r\n    hd\r\n  ],\r\n  refl,"
     },
     {
       "lean": "lemma succ_add (a b : mynat) : succ a + b = succ (a + b) :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "induction b with b h,\r\n  refl,\r\n\r\n  rw [\r\n    add_succ,\r\n    h\r\n  ],\r\n  refl,"
     },
     {
       "lean": "lemma add_comm (a b : mynat) : a + b = b + a :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "induction a with a h,\r\n  rw zero_add,\r\n  refl,\r\n  \r\n  rw [\r\n    succ_add,\r\n    add_succ,\r\n    h\r\n  ],\r\n  refl,"
     },
     {
       "lean": "theorem succ_eq_add_one (n : mynat) : succ n = n + 1 :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "rw [\r\n  one_eq_succ_zero,\r\n  add_succ\r\n],\r\nrefl,"
     },
     {
       "lean": "lemma add_right_comm (a b c : mynat) : a + b + c = a + c + b :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "induction c with c h,\r\n  rw [\r\n    add_zero (a + b),\r\n    add_zero a\r\n  ],\r\n  refl,\r\n\r\n  rw [\r\n    add_succ (a + b) c,\r\n    add_succ a c,\r\n    succ_add (a + c) b,\r\n    h\r\n  ],\r\n  refl,"
     },
     {
       "lean": "lemma zero_mul (m : mynat) : 0 * m = 0 :=\n",
