@@ -89,6 +89,7 @@
     },
     {
       "lean": "lemma mul_comm (a b : mynat) : a * b = b * a :=\n",
+      "isSolved": true,
       "editorText": "induction b with b h,\r\n  rw [\r\n    mul_zero a,\r\n    zero_mul a\r\n  ],\r\n  refl,\r\n\r\n  rw [\r\n    mul_succ a b,\r\n    succ_mul b a,\r\n    h\r\n  ],\r\n  refl,"
     },
     {
@@ -135,35 +136,43 @@
     },
     {
       "lean": "example : mynat → mynat :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intro n,\r\nexact n,"
     },
     {
       "lean": "example (P Q R S T U: Type)\n(p : P)\n(h : P → Q)\n(i : Q → R)\n(j : Q → T)\n(k : S → T)\n(l : T → U)\n: U :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "exact (l ∘ j ∘ h) p,"
     },
     {
       "lean": "example (P Q R S T U: Type)\n(p : P)\n(h : P → Q)\n(i : Q → R)\n(j : Q → T)\n(k : S → T)\n(l : T → U)\n: U :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "exact (l ∘ j ∘ h) p,"
     },
     {
       "lean": "example (P Q : Type) : P → (Q → P) :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intros p q,\r\nexact p,"
     },
     {
       "lean": "example (P Q R : Type) : (P → (Q → R)) → ((P → Q) → (P → R)) :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intros Ipqr Ipq p,\r\nhave q := Ipq p,\r\nhave Iqr := Ipqr p,\r\nexact Iqr q,"
     },
     {
       "lean": "example (P Q F : Type) : (P → Q) → ((Q → F) → (P → F)) :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intros Ipq Iqf p,\r\nexact (Iqf ∘ Ipq) p,"
     },
     {
       "lean": "example (P Q : Type) : (P → Q) → ((Q → empty) → (P → empty)) :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intros Ipq Iqe p,\r\nexact (Iqe ∘ Ipq) p,"
     },
     {
       "lean": "example (A B C D E F G H I J K L : Type)\n(f1 : A → B) (f2 : B → E) (f3 : E → D) (f4 : D → A) (f5 : E → F)\n(f6 : F → C) (f7 : B → C) (f8 : F → G) (f9 : G → J) (f10 : I → J)\n(f11 : J → I) (f12 : I → H) (f13 : E → H) (f14 : H → K) (f15 : I → L)\n : A → L :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intro a,\r\nexact (f15 ∘ f11 ∘ f9 ∘ f8 ∘ f5 ∘ f2 ∘ f1) a,"
     },
     {
       "lean": "example (P Q : Prop) (p : P) (h : P → Q) : Q :=\n",
