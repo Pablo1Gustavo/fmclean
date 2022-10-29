@@ -99,23 +99,27 @@
     },
     {
       "lean": "lemma zero_pow_zero : (0 : mynat) ^ (0 : mynat) = 1 :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "rw pow_zero 0,\r\nrefl,"
     },
     {
       "lean": "lemma zero_pow_succ (m : mynat) : (0 : mynat) ^ (succ m) = 0 :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "rw [\r\n  pow_succ 0 m,\r\n  mul_zero (0 ^ m)\r\n],\r\nrefl,"
     },
     {
       "lean": "lemma pow_one (a : mynat) : a ^ (1 : mynat) = a :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "rw [\r\n  one_eq_succ_zero,\r\n  pow_succ a 0,\r\n  pow_zero a,\r\n  one_mul a\r\n],\r\nrefl,"
     },
     {
       "lean": "lemma one_pow (m : mynat) : (1 : mynat) ^ m = 1 :=\n",
-      "editorText": "sorry"
+      "editorText": "induction m with m h,\r\n  rw pow_zero 1,\r\n  refl,\r\n\r\n  rw [\r\n    pow_succ 1 m,\r\n    mul_one (1 ^ m),\r\n    h\r\n  ],\r\n  refl,"
     },
     {
       "lean": "lemma pow_add (a m n : mynat) : a ^ (m + n) = a ^ m * a ^ n :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "induction n with n h,\r\n  rw [\r\n    add_zero m,\r\n    pow_zero a,\r\n    mul_one (a ^ m)\r\n  ],\r\n  refl,\r\n\r\n  rw [\r\n    add_succ m n,\r\n    pow_succ a (m + n),\r\n    pow_succ a n,\r\n    h,\r\n    mul_assoc (a ^ m) (a ^ n) a\r\n  ],\r\n  refl,"
     },
     {
       "lean": "lemma mul_pow (a b n : mynat) : (a * b) ^ n = a ^ n * b ^ n :=\n",
