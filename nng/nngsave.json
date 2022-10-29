@@ -232,17 +232,17 @@
     {
       "lean": "lemma and_trans (P Q R : Prop) : P ∧ Q → Q ∧ R → P ∧ R :=\n",
       "isSolved": true,
-      "editorText": "intros Cpq Cqr,\r\ncases Cpq with p q,\r\nhave r := Cqr.2,\r\nsplit,\r\n  exact p,\r\n\r\n  exact r,"
+      "editorText": "intros Cpq Cqr,\r\ncases Cpq with p q,\r\nhave r := Cqr.right,\r\nsplit,\r\n  exact p,\r\n\r\n  exact r,"
     },
     {
       "lean": "lemma iff_trans (P Q R : Prop) : (P ↔ Q) → (Q ↔ R) → (P ↔ R) :=\n",
       "isSolved": true,
-      "editorText": "intros Epq Eqr,\r\ncases Epq with Ipq Iqp,\r\ncases Eqr with Iqr Irq,\r\nsplit,\r\n  intro p,\r\n  exact Iqr (Ipq p),\r\n\r\n  intro r,\r\n  exact Iqp (Irq r),"
+      "editorText": "intros Epq Eqr,\r\ncases Epq with Ipq Iqp,\r\ncases Eqr with Iqr Irq,\r\nsplit,\r\n  intro p,\r\n  exact (Iqr ∘ Ipq) p,\r\n\r\n  intro r,\r\n  exact (Iqp ∘ Irq) r,"
     },
     {
       "lean": "lemma iff_trans (P Q R : Prop) : (P ↔ Q) → (Q ↔ R) → (P ↔ R) :=\n",
       "isSolved": true,
-      "editorText": "intros Epq Eqr,\r\ncases Epq with Ipq Iqp,\r\ncases Eqr with Iqr Irq,\r\nsplit,\r\n  intro p,\r\n  exact Iqr (Ipq p),\r\n\r\n  intro r,\r\n  exact Iqp (Irq r),"
+      "editorText": "intros Epq Eqr,\r\ncases Epq with Ipq Iqp,\r\ncases Eqr with Iqr Irq,\r\nsplit,\r\n  intro p,\r\n  exact (Iqr ∘ Ipq) p,\r\n\r\n  intro r,\r\n  exact (Iqp ∘ Irq) r,"
     },
     {
       "lean": "example (P Q : Prop) : Q → (P ∨ Q) :=\n",
@@ -257,17 +257,17 @@
     {
       "lean": "lemma and_or_distrib_left (P Q R : Prop) : P ∧ (Q ∨ R) ↔ (P ∧ Q) ∨ (P ∧ R) :=\n",
       "isSolved": true,
-      "editorText": "split,\r\n  intro CpDqr,\r\n  cases CpDqr with p Dqr,\r\n  cases Dqr with q r,\r\n    left,\r\n    split,\r\n      exact p,\r\n\r\n      exact q,\r\n\r\n    right,\r\n    split,\r\n      exact p,\r\n\r\n      exact r,\r\n\r\n  intro DCpqCpr,\r\n  cases DCpqCpr with Cpq Cpr,\r\n  split,\r\n    exact Cpq.1,\r\n\r\n    left,\r\n    exact Cpq.2,\r\n\r\n    split,\r\n      exact Cpr.1,\r\n\r\n      right,\r\n      exact Cpr.2,"
+      "editorText": "split,\r\n  intro CpDqr,\r\n  cases CpDqr with p Dqr,\r\n  cases Dqr with q r,\r\n    left,\r\n    split,\r\n      exact p,\r\n\r\n      exact q,\r\n\r\n    right,\r\n    split,\r\n      exact p,\r\n\r\n      exact r,\r\n\r\n  intro DCpqCpr,\r\n  cases DCpqCpr with Cpq Cpr,\r\n  split,\r\n    exact Cpq.left,\r\n\r\n    left,\r\n    exact Cpq.right,\r\n\r\n    split,\r\n      exact Cpr.left,\r\n\r\n      right,\r\n      exact Cpr.right,"
     },
     {
       "lean": "lemma contra (P Q : Prop) : (P ∧ ¬ P) → Q :=\n",
       "isSolved": true,
-      "editorText": "intro CpNp,\r\ncases CpNp with p Np,\r\nhave b := Np(p),\r\nexfalso,\r\nexact b,"
+      "editorText": "intro CpNp,\r\ncases CpNp with p Np,\r\nhave b := Np p,\r\nexfalso,\r\nexact b,"
     },
     {
       "lean": "lemma contrapositive2 (P Q : Prop) : (¬ Q → ¬ P) → (P → Q) :=\n",
       "isSolved": true,
-      "editorText": "intro INqNp,\r\nintro p,\r\nby_cases Hp : P,\r\nby_cases Hq : Q,\r\n  exact Hq,\r\n  have B := (INqNp Hq) p,\r\n  contradiction,\r\n\r\n  contradiction,"
+      "editorText": "  intros INqNp p,\r\n  by_cases Hq: Q,\r\n    exact Hq,\r\n\r\n    have Np := INqNp Hq,\r\n    contradiction,"
     },
     {
       "lean": "theorem succ_inj' {a b : mynat} (hs : succ(a) = succ(b)) :  a = b := \n",
