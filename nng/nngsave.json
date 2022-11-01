@@ -344,15 +344,18 @@
     },
     {
       "lean": "theorem mul_pos (a b : mynat) : a ≠ 0 → b ≠ 0 → a * b ≠ 0 :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "intros a_ne_zero b_ne_zero ab_eq_zero,\r\ncases b,\r\n  rw mul_zero at ab_eq_zero,\r\n  contradiction,\r\n\r\n  rw mul_succ a b at ab_eq_zero,\r\n  cases a,\r\n    rw [\r\n      zero_mul b,\r\n      zero_add 0\r\n    ] at ab_eq_zero,\r\n    contradiction,\r\n\r\n    rw add_succ (succ a * b) a at ab_eq_zero,\r\n    exact succ_ne_zero _ ab_eq_zero,"
     },
     {
       "lean": "theorem eq_zero_or_eq_zero_of_mul_eq_zero (a b : mynat) (h : a * b = 0) :\n  a = 0 ∨ b = 0 :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "cases b,\r\n  right,\r\n  refl,\r\n\r\n  cases a,\r\n    left,\r\n    refl,\r\n\r\n    left,\r\n    rw [\r\n      mul_succ (succ a) b,\r\n      add_succ (succ a * b) a\r\n    ] at h,\r\n    have B := succ_ne_zero _ h,\r\n    contradiction,"
     },
     {
       "lean": "theorem mul_eq_zero_iff (a b : mynat): a * b = 0 ↔ a = 0 ∨ b = 0 :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "split,\r\n  intro h,\r\n  exact (eq_zero_or_eq_zero_of_mul_eq_zero a b) h,\r\n\r\n  intro h,\r\n  cases h,\r\n    rw [h, zero_mul b],\r\n    refl,\r\n\r\n    rw [h, mul_zero a],\r\n    refl,"
     },
     {
       "lean": "theorem mul_left_cancel (a b c : mynat) (ha : a ≠ 0) : a * b = a * c → b = c :=\n",
