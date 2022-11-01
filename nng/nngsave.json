@@ -114,6 +114,7 @@
     },
     {
       "lean": "lemma one_pow (m : mynat) : (1 : mynat) ^ m = 1 :=\n",
+      "isSolved": true,
       "editorText": "induction m with m h,\r\n  rw pow_zero 1,\r\n  refl,\r\n\r\n  rw [\r\n    pow_succ 1 m,\r\n    mul_one (1 ^ m),\r\n    h\r\n  ],\r\n  refl,"
     },
     {
@@ -123,15 +124,18 @@
     },
     {
       "lean": "lemma mul_pow (a b n : mynat) : (a * b) ^ n = a ^ n * b ^ n :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "induction n with n h,\r\n  rw [\r\n    pow_zero (a * b),\r\n    pow_zero b,\r\n    pow_zero a\r\n  ],\r\n  refl,\r\n\r\n  rw [\r\n    pow_succ (a * b) n,\r\n    pow_succ a n,\r\n    pow_succ b n,\r\n    mul_assoc (a ^ n) a ((b ^ n) * b),\r\n    mul_left_comm a (b ^ n),\r\n    h,\r\n    mul_assoc (a ^ n) (b ^ n) (a * b)\r\n  ],\r\n  refl,"
     },
     {
       "lean": "lemma pow_pow (a m n : mynat) : (a ^ m) ^ n = a ^ (m * n) :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "induction n with n h,\r\n  rw [\r\n    pow_zero (a ^ m),\r\n    mul_zero m,\r\n    pow_zero a\r\n  ],\r\n  refl,\r\n\r\n  rw [\r\n    pow_succ (a ^ m) n,\r\n    mul_succ m n,\r\n    pow_add a (m * n) m,\r\n    h\r\n  ],\r\n  refl,"
     },
     {
       "lean": "lemma add_squared (a b : mynat) :\n  (a + b) ^ (2 : mynat) = a ^ (2 : mynat) + b ^ (2 : mynat) + 2 * a * b :=\n",
-      "editorText": "sorry"
+      "isSolved": true,
+      "editorText": "-- oh mai gah... I will need some gambiarras (⌣̩̩́_⌣̩̩̀)\r\n\r\nrw two_eq_succ_one,\r\nrw succ_eq_add_one,\r\n\r\nrepeat { rw pow_add },\r\nrepeat { rw pow_one },\r\n\r\nrw mul_add,\r\nrepeat { rw add_mul },\r\nrw one_mul,\r\n\r\nrw add_assoc (a * a) (b * b) (a * b + a * b),\r\nrw add_comm (b * b) (a * b + a * b),\r\nrw mul_comm b a,\r\n\r\nrepeat { rw ← add_assoc },"
     },
     {
       "lean": "example (P Q : Type) (p : P) (h : P → Q) : Q :=\n",
