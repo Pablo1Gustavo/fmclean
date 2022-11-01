@@ -359,7 +359,7 @@
     },
     {
       "lean": "theorem mul_left_cancel (a b c : mynat) (ha : a ≠ 0) : a * b = a * c → b = c :=\n",
-      "editorText": "sorry"
+      "editorText": "induction c with d h generalizing b,\r\n  rw mul_zero a,\r\n  intro h',\r\n  rw mul_eq_zero_iff at h',\r\n\r\n  cases h', \r\n    have B := ha h',\r\n    contradiction,\r\n\r\n    exact h',\r\n  \r\n  intro h'',\r\n  cases b,\r\n    sorry,\r\n    -- :("
     },
     {
       "lean": "lemma one_add_le_self (x : mynat) : x ≤ 1 + x :=\n",
